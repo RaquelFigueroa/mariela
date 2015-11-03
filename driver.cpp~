@@ -1,0 +1,89 @@
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cstdlib>//exit()
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+double var(vector<double> &v);
+
+double stdDev(vector<double> &v);
+
+
+int main()
+{
+    ifstream finA;
+    ifstream finB;
+    double val;
+    vector<double> vA;
+    vector<double> vB;
+    
+    finA.open("two_a.txt");
+    if (finA.fail())
+    {
+        cout << "file A failed to open." << endl;
+        return(1);
+    }
+    
+    finB.open("two_b.txt");
+    if (finB.fail())
+    {
+        cout << "file B failed to open." << endl;
+        return (1);
+    }
+    
+    while (finA >> val)
+    {
+        vA.push_back(val);
+    }
+    
+    while (finB >> val)
+    {
+        vB.push_back(val);
+    }
+    
+    cout << "file A variance: " << var(vA) << endl;
+    cout << "file B variance: " << var(vB) << endl;
+    cout << "file A std dev: " << stdDev(vA) << endl;
+    cout << "file B std dev: " << stdDev(vB) << endl;
+    
+    
+    
+    finA.close();
+    finB.close();
+    return 0;
+}
+
+//********************************************
+double var(vector<double> &v)
+{
+    double sum(0), ave(0), vSum(0), result(0);
+    
+    for (int i = 0; i < v.size(); i++)
+    {
+        sum += v[i];
+    }
+    ave = sum / v.size();
+    
+    for (int i = 0; i < v.size(); i++)
+    {
+        vSum += pow(fabs(v[i] - ave), 2);
+    }
+    result = vSum / v.size();
+    return result;
+    
+}//end var()
+//***********************************************
+//
+double stdDev(vector<double> &v)
+{
+    double result(0);
+    result = sqrt(var(v));
+    return result;
+}
+
+
+
